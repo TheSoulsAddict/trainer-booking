@@ -1,13 +1,9 @@
 <script>
 	import H1 from '../../components/H1.svelte';
 	import Paragraph from '../../components/Paragraph.svelte';
-	import { Terms } from '$lib/store';
 	import Button from '../../components/Button.svelte';
 
-	let terms = $state();
-	Terms.subscribe((store) => {
-		terms = store;
-	});
+	const terms = {};
 </script>
 
 <H1 text="Terminy:"></H1>
