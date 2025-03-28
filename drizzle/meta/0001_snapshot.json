@@ -1,0 +1,117 @@
+{
+  "id": "41edc992-1c9c-4dc3-8e67-aa93e623d4a0",
+  "prevId": "dfabe2e5-bfee-4d47-b282-c5c6ed19cbbd",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.booking": {
+      "name": "booking",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "termId": {
+          "name": "termId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tel": {
+          "name": "tel",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.term": {
+      "name": "term",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "dotw": {
+          "name": "dotw",
+          "type": "varchar(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date": {
+          "name": "date",
+          "type": "varchar(12)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "timeStart": {
+          "name": "timeStart",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "timeEnd": {
+          "name": "timeEnd",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location": {
+          "name": "location",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
