@@ -1,7 +1,7 @@
 import type { Term } from '$lib/types.js';
 
 export const load = async ({ fetch, params }) => {
-	const res = await fetch('/api/admin/load-terms');
+	const res = await fetch('/api/load-terms');
 	if (!res.ok) {
 		console.log('Error fetching terms.');
 	}

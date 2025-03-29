@@ -11,12 +11,7 @@
 	let location: string = $state('');
 	let type: string = $state('');
 
-	let date_convertor: Date = $state(new Date());
-	let day: number = $state(0);
-	let month: number = $state(0);
-	let year: number = $state(0);
-
-	function dotw_translator(index: number) {
+	function dotwTranslator(index: number): string {
 		switch (index) {
 			case 1:
 				return 'Po';
@@ -37,8 +32,23 @@
 		}
 	}
 
+	function getDotw(date_string: string): string {
+		const date = new Date(parseInt(date_string) * 1000);
+		const dotw_index = date.getDay();
+		const dotw_string = dotwTranslator(dotw_index);
+		return dotw_string;
+	}
+
+	function formatDate(date_string: string): string {
+		const date = new Date(parseInt(date_string) * 1000);
+		const day = date.getDate().toString();
+		const month = date.getMonth().toString();
+		const year = date.getFullYear().toString();
+		return day + '. ' + month + '. ' + year;
+	}
+
 	async function loadTerms() {
-		const res = await fetch('/api/admin/load-terms');
+		const res = await fetch('/api/load-terms');
 		if (!res.ok) {
 			console.log('Error fetching terms.');
 		}
@@ -46,19 +56,17 @@
 	}
 
 	async function addTerm() {
-		const dotw_convertor: Date = new Date(date);
-		const index = dotw_convertor.getDay();
-		const dotw = dotw_translator(index);
-		const res = await fetch('/api/admin/add-term', {
+		const date_convertor = new Date(date);
+		const timestamp = (date_convertor.getTime() / 1000).toString();
+		const res = await fetch('/api/add-term', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				dotw: dotw,
-				date: date,
+				date: timestamp,
 				timeStart: time_start,
 				timeEnd: time_end,
-				location: 'location',
-				type: 'off-ice'
+				location: location,
+				type: type
 			})
 		});
 		if (!res.ok) {
@@ -68,7 +76,7 @@
 	}
 
 	async function removeTerm(id: number) {
-		const res = await fetch('/api/admin/delete-term', {
+		const res = await fetch('/api/delete-term', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -84,10 +92,10 @@
 
 <H1 text="Terminy"></H1>
 <div class="p-4">
-	{#each Object.entries(terms) as [id, term]}
+	{#each terms as term}
 		<div class="flex flex-row pt-2">
-			<div class="">{term.dotw}</div>
-			<div class="pl-4">{term.date}</div>
+			<div class="">{getDotw(term.date)}</div>
+			<div class="pl-4">{formatDate(term.date)}</div>
 			<div class="pl-4">{term.timeStart} - {term.timeEnd}</div>
 			<div class="pl-4">{term.location}</div>
 			<div class="pl-4">{term.type}</div>
@@ -107,6 +115,16 @@
 		<label>
 			Do
 			<input bind:value={time_end} type="time" />
+		</label>
+		<label>
+			Misto konani
+			<input bind:value={location} type="text" class="w-64" />
+		</label>
+		<br />
+		<br />
+		<label>
+			Typ / popis
+			<input bind:value={type} type="text" class="w-128" />
 		</label>
 		<button class="ml-4 cursor-pointer" onclick={addTerm}>Pridat</button>
 	</div>

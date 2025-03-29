@@ -1,11 +1,10 @@
 export interface Term {
 	id: number;
-	dotw: string | null;
-	date: string | null;
-	timeStart: string | null;
-	timeEnd: string | null;
-	location: string | null;
-	type: string | null;
+	date: string;
+	timeStart: string;
+	timeEnd: string;
+	location: string;
+	type: string;
 }
 
 export interface TermDict {
