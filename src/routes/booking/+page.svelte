@@ -2,12 +2,13 @@
 	import type { Term } from '$lib/types';
 	import H1 from '../../components/H1.svelte';
 	import { getDotw, formatDate } from '$lib';
+	import { goto } from '$app/navigation';
 
 	let { data } = $props();
 	let terms: Term[] = $state(data.terms);
 
 	async function bookTerm(term_id: number) {
-		alert('book: ' + term_id.toString());
+		goto('/book/' + term_id.toString());
 	}
 </script>
 

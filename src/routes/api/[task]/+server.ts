@@ -1,8 +1,8 @@
 import { json, type Cookies } from '@sveltejs/kit';
 import { TOKEN } from '$env/static/private';
 import { db } from '$lib/server/db/index.js';
-import { term } from '$lib/server/db/schema.js';
-import type { Term } from '$lib/types.js';
+import { booking, term } from '$lib/server/db/schema.js';
+import type { Term, Booking } from '$lib/types.js';
 import { eq } from 'drizzle-orm';
 
 export const GET = async ({ cookies, params }) => {
@@ -24,6 +24,8 @@ export const POST = async ({ request, cookies, params }) => {
 			return await addTerm(data, cookies);
 		case 'delete-term':
 			return await deleteTerm(data.id, cookies);
+		case 'add-booking':
+			return await addBooking(data);
 		// invalid task
 		default:
 			return json({ message: 'Invalid task' }, { status: 400 });
@@ -67,5 +69,14 @@ async function deleteTerm(id: number, cookies: Cookies) {
 		return json(result);
 	} catch (err) {
 		return json({ message: 'Error deleting data' }, { status: 500 });
+	}
+}
+
+async function addBooking(data: Booking) {
+	try {
+		const result = await db.insert(booking).values(data);
+		return json(result);
+	} catch (err) {
+		return json({ message: 'Error adding data' }, { status: 500 });
 	}
 }

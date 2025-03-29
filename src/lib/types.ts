@@ -12,10 +12,11 @@ export interface TermDict {
 }
 
 export interface Booking {
-	term_id: number;
-	name: string;
-	lastname: string;
+	termId: number;
+	tel: string;
 	email: string;
+	name: string;
+	message: string;
 }
 
 export interface BookingDict {

@@ -15,5 +15,5 @@ export const booking = pgTable('booking', {
 	tel: varchar('tel', { length: 20 }).notNull(),
 	email: varchar('email', { length: 50 }).notNull(),
 	name: varchar('name', { length: 50 }).notNull(),
-	message: varchar('name', { length: 500 }).notNull()
+	message: varchar('message', { length: 500 }).notNull()
 });

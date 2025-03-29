@@ -40,12 +40,12 @@
 		loadTerms();
 	}
 
-	async function removeTerm(id: number) {
+	async function removeTerm(term_id: number) {
 		const res = await fetch('/api/delete-term', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				id: id
+				id: term_id
 			})
 		});
 		if (!res.ok) {
