@@ -1,19 +1,26 @@
-<script>
+<script lang="ts">
+	import type { Term } from '$lib/types';
 	import H1 from '../../components/H1.svelte';
-	import Paragraph from '../../components/Paragraph.svelte';
-	import Button from '../../components/Button.svelte';
+	import { getDotw, formatDate } from '$lib';
 
-	const terms = {};
+	let { data } = $props();
+	let terms: Term[] = $state(data.terms);
+
+	async function bookTerm(term_id: number) {
+		alert('book: ' + term_id.toString());
+	}
 </script>
 
-<H1 text="Terminy:"></H1>
+<H1 text="Terminy"></H1>
 <div class="p-4">
-	{#each Object.entries(terms) as [id, term]}
+	{#each terms as term}
 		<div class="flex flex-row pt-2">
-			<div class="">{term.dotw}</div>
-			<div class="pl-4">{term.date}</div>
-			<div class="pl-4">{term.time}</div>
-			<a href="book/{id}" class="ml-8">Prihlasit</a>
+			<div class="">{getDotw(term.date)}</div>
+			<div class="pl-4">{formatDate(term.date)}</div>
+			<div class="pl-4">{term.timeStart} - {term.timeEnd}</div>
+			<div class="pl-4">{term.location}</div>
+			<div class="pl-4">{term.type}</div>
+			<button class="ml-8 cursor-pointer" onclick={(e) => bookTerm(term.id)}>Registrovat</button>
 		</div>
 	{/each}
 </div>
