@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { Term } from '$lib/types';
+	import type { Term, Booking } from '$lib/types';
 	import H1 from '../../components/H1.svelte';
 	import { getDotw, formatDate } from '$lib';
 
 	let { data } = $props();
 	let terms: Term[] = $state(data.terms);
+	let bookings: Booking[] = $state(data.bookings);
 
 	let date: string = $state('');
 	let time_start: string = $state('');
@@ -53,6 +54,28 @@
 		}
 		loadTerms();
 	}
+
+	async function loadBookings() {
+		const res_bookings = await fetch('/api/load-bookings');
+		if (!res_bookings.ok) {
+			console.log('Error fetching bookings.');
+		}
+		bookings = await res_bookings.json();
+	}
+
+	async function removeBooking(booking_id: number) {
+		const res = await fetch('/api/delete-booking', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				id: booking_id
+			})
+		});
+		if (!res.ok) {
+			console.log('Error deleting booking.');
+		}
+		loadBookings();
+	}
 </script>
 
 <H1 text="Terminy"></H1>
@@ -95,21 +118,24 @@
 	</div>
 </div>
 
-<!-- <H1 text="Prihlasky"></H1>
+<H1 text="Registrace"></H1>
 <div class="px-4 pb-4">
-	{#each Object.entries(bookings) as [id, booking]}
+	{#each bookings as booking}
 		<div class="mt-4 bg-slate-300">
 			<div class="flex flex-row pt-2">
 				<div class="">{booking.name}</div>
-				<div class="pl-4">{booking.lastname}</div>
+				<div class="pl-4">{booking.tel}</div>
 				<div class="pl-4">{booking.email}</div>
-				<button class="ml-8 cursor-pointer" onclick={(e) => removeBooking(id)}>Odstranit</button>
+				<div class="pl-4">{booking.message}</div>
+				<button class="ml-8 cursor-pointer" onclick={(e) => removeBooking(booking.id)}
+					>Odstranit</button
+				>
 			</div>
-			<div class="flex flex-row pt-2">
+			<!-- <div class="flex flex-row pt-2">
 				<div class="">{terms[booking.term_id].dotw}</div>
 				<div class="pl-4">{terms[booking.term_id].date}</div>
 				<div class="pl-4">{terms[booking.term_id].time}</div>
-			</div>
+			</div> -->
 		</div>
 	{/each}
-</div> -->
+</div>
